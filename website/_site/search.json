@@ -2,8 +2,15 @@
   {
     "objectID": "about.html",
     "href": "about.html",
-    "title": "About",
+    "title": "psci3200~websitedemo",
     "section": "",
     "text": "About this site\n\n1 + 1\n\n[1] 2\n\n# nofsnafo asnfoiasn foiasnf oiasanfoiasnf oini"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "psci3200~websitedemo",
+    "section": "",
+    "text": "This is a Quarto website.\nTo learn more about Quarto websites visit https://quarto.org/docs/websites.\n\n1 + 1\n\n[1] 2\n\n# please work mmmmmmmmmmmmmmmmmm"
   }
 ]
