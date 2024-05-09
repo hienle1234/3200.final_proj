@@ -10,6 +10,8 @@ website:
       - href: about.qmd
         text: Home
       - about.qmd
+      
+bibliography: references.bib
 
 format:
   html:
@@ -18,11 +20,107 @@ format:
     toc: true
 ---
 
-This is a Quarto website.
+## Introduction
 
-To learn more about Quarto websites visit <https://quarto.org/docs/websites>.
+My research question focuses on the relationship between food insecurity and trust in public institutions. This query is grounded in existing scholarly literature which offers nuanced insights alongside notable gaps. Studies by Levi et al. and Smith, Kassa, and Wesselbaum provide a foundational understanding of the dynamics at play.
+
+[@Levi2009] explore the broader constructs of legitimacy and trust in government, emphasizing that trustworthiness, procedural justice, and administrative competence are crucial for bolstering citizen compliance and deference to authority. Their research, based on survey data from various African nations, establishes a link between perceived government effectiveness and an increase in public trust and law compliance. They suggest that food security may enhance government legitimacy by demonstrating effective governance, thereby fostering increased public trust. As food security reflects on governmental performance and responsibility, it strengthens trust in and perceptions of administrative competence and procedural justice. This, in turn, leads to greater public compliance with laws and robust electoral support, underlining the argument that effective food security measures are pivotal for stable and effective governance.
+
+Conversely, [@Smith2024] and colleagues delve into the more direct impacts of food insecurity, demonstrating how it erodes both horizontal trust (among peers) and vertical trust (in institutions). They contend that food insecurity signifies a breach in the social contract, where citizens expect the state to ensure basic services such as food security, thus directly undermining trust in public institutions.
+
+However, these insightful analyses also highlight several research gaps. The first notable gap is the geographical focus, which is primarily on African data. This limitation could restrict the generalizability of the findings to other regions with differing political, economic, and social contexts. This observation suggests a need for studies that encompass a broader array of environments. Additionally, the methodologies employed, while robust, rely on cross-sectional data. Such data may not adequately capture the rapidly evolving dynamics of food security and institutional trust, especially in the wake of global disruptions like pandemics or economic crises.
+
+In addressing my research question, I aim to bridge these gaps by focusing on the Philippines and conducting a trend analysis comparing data from 2012 with 2019. This empirical extension could significantly refine our understanding and guide more effective policy interventions, potentially revealing how shifts in food security impact trust in public institutions over time.Hypothesis
+
+Hypothesis
+
+Refining my broad research question into a specific, testable hypothesis, I propose: "Increased food security leads to enhanced trust in public institutions." This hypothesis posits a causal relationship where improvements in food security (independent variable) are expected to result in higher levels of trust in public institutions (dependent variable).
+
+The rationale for expecting this relationship stems from foundational theories and empirical research discussed in the literature. Levi and Sacks (2020) highlight that food security can enhance government legitimacy by demonstrating effective governance, thereby increasing public trust. They argue that when governments effectively manage and ensure food security, it not only reflects their competence but also their commitment to upholding the social contract, which in turn strengthens public trust (Levi et al., 2020). This relationship suggests that as food security improves, it should logically lead to higher public trust in governmental institutions, due to perceived increases in administrative competence and procedural justice.
+
+Further supporting this causal link, Smith, Kassa, and Wesselbaum (2019) provide evidence that food insecurity undermines both vertical trust (trust in institutions) and horizontal trust (trust among peers). Their study indicates that failures in food security are perceived as breaches of the social contract, directly diminishing trust in governmental capabilities and intentions (Smith et al., 2019). This erosion of trust due to poor food security underscores the potential for increased food security to have the opposite effect—bolstering trust.
+
+My hypothesis is grounded in these findings and extends the logical reasoning by suggesting that as food security is a fundamental need, its assurance by the government should logically enhance the citizens' trust in its ability to fulfill other basic needs and rights. This hypothesis will be tested through a focused study on the Philippines, utilizing data from two different time periods (2012 and 2019) to assess changes over time. The Philippine context offers a unique opportunity to explore this relationship in a non-Western setting with its own distinct socio-political dynamics, thereby providing broader insights into the causal relationship between food security and trust in public institutions.
+
+Data description and variables for analysis
+
+The dataset for my analysis is sourced from the World Value Survey (WVS), specifically Wave 7, covering the period 2017-2022. I am utilizing data from the Philippines collected in 2019, which adheres to the master questionnaire provided by the WVS. This survey involves random probability samples that are representative of the adult population in each participating country. In the Philippines, the data was primarily collected through face-to-face interviews using paper-assisted personal interviewing (PAPI) or computer-assisted personal interviewing (CAPI) methods. The primary unit of analysis in this dataset is the individual respondent, identified by a unique interview ID. Each row in the dataset represents responses from an individual to a comprehensive set of questions.
+
+Independent Variable: Food Security
+
+Food security is assessed using responses to question Q51: "Gone without having enough food to eat," with answers ranging numerically from 1 to 4: Often, Sometimes, Rarely, Never. For the purposes of my analysis, these responses will be converted into a binary variable, categorizing 'Often' and 'Sometimes' as indicative of food insecurity, and 'Rarely' and 'Never' as food secure.
+
+Dependent Variable: Trust in Public Institutions Index
+
+Trust is measured through responses to questions 64 to 81, which assess respondents' trust in a variety of public institutions, including the armed forces, the press, television, labor unions, the police, the courts, the government, political parties, parliament, the civil service, universities, elections, banks, environmental organizations, women’s organizations, and charitable or humanitarian organizations. These responses are numerical and will be compiled into an additive index to create a comprehensive measure of trust in public institutions.
 
 ```{r}
-1 + 1
-# please work mmmmmmmmmmmmmmmmmm
+library(readxl)
+library(dplyr)
+philp <- read_xlsx("C:/Users/lelon/Downloads/F00013212-WVS_Wave_7_Philippines_Excel_v5.0.xlsx")
+# rename relevant variables
+philp <- philp %>%
+  rename(
+    ## Independent variable
+    foodsecurity = "Q51: Frequency you/family (last 12 month): Gone without enough food to eat",
+    ## Dependent variables for trust in public institutions
+    trust = "Q64: Confidence: Churches",
+    trust1 = "Q65: Confidence: Armed Forces",
+    trust2 = "Q66: Confidence: The Press",
+    trust3 = "Q67: Confidence: Television", 
+    trust4 = "Q68: Confidence: Labor Unions",  
+    trust5 = "Q69: Confidence: The Police",
+    trust6 = "Q70: Confidence: Justice System/Courts",
+    trust7 = "Q71: Confidence: The Government",
+    trust8 = "Q72: Confidence: The Political Parties",
+    trust9 = "Q73: Confidence: Parliament",
+    trust10 ="Q74: Confidence: The Civil Services",
+    trust11 = "Q75: Confidence: Universities",
+    trust12 = "Q76: Confidence: Elections",
+    trust13 = "Q77: Confidence: Major Companies",
+    trust14 = "Q78: Confidence: Banks",
+    trust15 = "Q79: Confidence: The Environmental Protection Movement",
+    trust16 = "Q80: Confidence: The Women's Movement",
+    trust17 = "Q81: Confidence: Charitable or humanitarian organizations",
+    ## Control variables
+    educ = "Q275: Highest educational level: Respondent [ISCED 2011]", 
+    employment = "Q279: Employment status",
+    income = "Q288: Scale of incomes",
+    sex = "Q260: Sex",
+    age = "Q262: Age",
+    mar = "Q273: Marital status",
+    children = "Q274: How many children do you have"
+    )
+    
+
+# standardizing control variables
+
+# z score normalization for control variables
+philp$education_z <- scale(philp$educ)
+philp$employment_z <- scale(philp$employment)  
+philp$income_z <- scale(philp$income)
+philp$sex_z <- scale(philp$sex)
+philp$age_z <- scale(philp$age)
+philp$mar_z <- scale(philp$mar)
+philp$children_z <- scale(philp$children)
+
+# creating an index for trust in public institutions
+philp <- philp %>%
+  rowwise() %>%
+  mutate(TrustIndex = mean(c(trust, trust1, trust2, trust3, trust4, trust5, trust6, trust7, trust8, trust9, trust10, trust11, trust12, trust13, trust14, trust15, trust16, trust17), na.rm = TRUE))
+
+# make foodsecurity binary, 0 = (food secure), 1 = (food insecure).
+philp$foodsecurity_binary <- ifelse(philp$foodsecurity <= 2, 0, 1)
+
+# relationship between food security and index for trust in public institutions. Box plot. 
+library(ggplot2)
+ggplot(philp, aes(x = factor(foodsecurity_binary), y = TrustIndex, fill = factor(foodsecurity_binary))) +
+  geom_boxplot() +
+  labs(x = "Food Security Status", y = "Trust Index",
+       title = "Box Plot of Trust Index by Food Security Status",
+       caption = "Comparative Box Plot Displaying Distribution of Trust Index Scores Between Food Secure and Food Insecure Populations") +
+  scale_fill_manual(values = c("blue", "green"), name = "Food Security",
+                    labels = c("Secure", "Insecure")) +
+  theme_minimal() +
+  theme(legend.position = "top")
 ```
